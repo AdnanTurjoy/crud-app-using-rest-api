@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 
 import "./App.css";
-const URL = "https://rest-api-without-db.herokuapp.com/users/";
+import UserForm from "./components/UserForm";
+const URL = "https://rest-api-without-db.herokuapp.com/users";
 function App() {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState("");
@@ -26,25 +27,68 @@ function App() {
         setIsLoading(false);
       });
   };
-  console.log(users);
+
+  // Delete method
+  const handleDelete = (id) => {
+    // setUsers(users.filter((user) => user.id !== id));     This is only for local API not for REST API
+    fetch(URL + `/${id}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error("Could not delete");
+        } else {
+          getUser(); // again fetch total user
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
+  //console.log(users);
+  // GET method
   useEffect(() => {
     getUser();
   }, []);
+  const addUser = (user) => {
+    // console.log(user);
+    fetch(URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(user),
+    })
+      .then((res) => {
+        if (res.status === 201) {
+          getUser();
+        } else {
+          throw new Error("could not create new user");
+        }
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  };
   return (
     <div className="App">
       <h1>User Management APP</h1>
       {isLoading && <p>Loading...</p>}
       {error && { error }}
+      <UserForm btnText="Add User" handleUserData={addUser} />
       <section>
         {users &&
           users.map((user) => {
+            
             const { id, username, email } = user;
             return (
               <article className="card" key={id}>
                 <p>{username}</p>
                 <p>{email}</p>
                 <button className="btn">Edit</button>
-                <button className="btn">Delete</button>
+                <button className="btn" onClick={() => handleDelete(id)}>
+                  Delete
+                </button>
               </article>
             );
           })}
