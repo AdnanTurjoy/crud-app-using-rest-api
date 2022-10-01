@@ -36,3 +36,44 @@
     transform: rotate(360deg);
   }
 }
+/* own design */
+
+.card{
+  margin: 1rem;
+  padding: 1rem;
+  color: white;
+  background-color: #282c34;
+}
+.btn{
+  margin: 0.5rem;
+  padding: 0.rem;
+  width: 6rem;
+  height: 1.5rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  border-style: none;
+}
+.btn:hover{
+  background-color: orange;
+}
+section{
+  display: grid;
+}
+@media screen and (min-width: 600px) {
+  section{
+    grid-template-columns: auto auto ;
+  }
+  
+}
+@media screen and (min-width: 668px) {
+  section{
+    grid-template-columns: auto auto auto ;
+  }
+  
+  @media screen and (min-width: 992px) {
+    section{
+      grid-template-columns: auto auto auto auto;
+    }
+    
+  }
+}
