@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
-function UserForm({ handleUserData, btnText }) {
+function UserForm({ handleUserData, handleUpdateUser, btnText }) {
   const [user, setUser] = useState({
     username: "",
     email: "",
@@ -13,9 +13,13 @@ function UserForm({ handleUserData, btnText }) {
       return { ...prevState, [nameFeild]: valueFeild };
     });
   };
+  //console.log(handleUpdateUser);
+  useEffect(() => {
+    setUser(handleUpdateUser);
+  }, [handleUpdateUser]);
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     //console.log();
     handleUserData(user);
     setUser({
@@ -54,5 +58,10 @@ function UserForm({ handleUserData, btnText }) {
   );
 }
 
-UserForm.propTypes = {};
+UserForm.defaultProps = {
+  handleUpdateUser: {
+    username: "",
+    email: "",
+  },
+};
 export default UserForm;
