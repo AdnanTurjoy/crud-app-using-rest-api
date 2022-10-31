@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import "./App.css";
 import UserForm from "./components/UserForm";
-const URL = "https://rest-api-without-db.herokuapp.com/users";
+const URL = "https://adnan-user-rest-api.herokuapp.com/users";
 function App() {
   const [users, setUsers] = useState(null);
   const [error, setError] = useState("");
